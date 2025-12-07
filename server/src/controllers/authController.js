@@ -8,6 +8,7 @@ import {
   isValidEmail,
 } from "../utils/validators.js";
 
+
 const accessTokenMaxAge = ms(process.env.ACCESS_TOKEN_EXPIRES);
 const refreshTokenMaxAge = ms(process.env.REFRESH_TOKEN_EXPIRES);
 
@@ -73,6 +74,9 @@ const register = async (req, res) => {
     const refreshToken = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRES,
     });
+
+    newUser.refreshToken = refreshToken;
+    await newUser.save();
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
