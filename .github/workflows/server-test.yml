@@ -29,4 +29,13 @@ jobs:
 
       - name: Run backend tests
         run: npm test
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          PORT: ${{ vars.PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          ADMIN_EMAIL: ${{ vars.ADMIN_EMAIL }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          ACCESS_TOKEN_EXPIRES: ${{ vars.ACCESS_TOKEN_EXPIRES }}
+          REFRESH_TOKEN_EXPIRES: ${{ vars.REFRESH_TOKEN_EXPIRES }}
+          NODE_ENV: ${{ vars.NODE_ENV }}
         working-directory: ./server
