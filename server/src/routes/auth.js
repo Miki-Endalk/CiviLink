@@ -1,17 +1,24 @@
 import express from "express";
 import { verifyToken } from "../middleware/authMiddleware.js";
-import authController from "../controllers/authController.js";
+import {
+  register,
+  login,
+  logout,
+  refreshToken,
+} from "../controllers/authController.js";
 
 const router = express.Router();
 
 //Citizen registration
-router.post("/register", authController.register);
+router.post("/register", register);
 
 //Login
-router.post("/login", authController.login);
+router.post("/login", login);
 
 //Logout
-router.post("/logout", verifyToken, authController.logout);
+router.post("/logout", verifyToken, logout);
 
 //Refresh access token
-router.post("/refresh", authController.refreshToken);
+router.post("/refresh-token", refreshToken);
+
+export default router;

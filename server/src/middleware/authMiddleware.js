@@ -1,10 +1,13 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
 export const verifyToken = async (req, res, next) => {
   try {
-    const token = req.cookies?.accessToken;
+    const token =
+      req.cookies?.accessToken ||
+      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
 
     if (!token) {
       return res
@@ -28,12 +31,10 @@ export const verifyToken = async (req, res, next) => {
           .json({ success: false, message: "User not found" });
       }
 
-      req.user = user;
+      req.user = { id: user._id.toString(), role: user.role };
       next();
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
-export default verifyToken;
